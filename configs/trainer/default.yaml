@@ -1,0 +1,9 @@
+_target_: lightning.pytorch.trainer.Trainer
+
+default_root_dir: ${paths.output_dir}
+min_epochs: 1
+max_epochs: 10
+accelerator: cpu
+devices: 1
+check_val_every_n_epoch: 1
+deterministic: False

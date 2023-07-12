@@ -1,0 +1,171 @@
+task_name: BeitSeg
+tags:
+- dev
+train: true
+test: false
+compile: false
+ckpt_path: null
+seed: 520
+data:
+  _target_: usfm.data.DS_Segdatamodule.DSSegVocModule
+  data_path:
+    data_root: ${data.data_DS_path}/tn3k/
+    data_split:
+      train: train
+      val: val
+      test: test
+      vis:
+        samples: 16
+        interval: 10
+    image_type: jpg
+  transform: null
+  data_DS_path: data
+  batch_size: 40
+  num_workers: 4
+model:
+  norm_cfg:
+    type: SyncBN
+    requires_grad: true
+  net:
+    type: EncoderDecoder
+    pretrained: null
+    backbone:
+      type: BEiTBackbone4Seg
+      pretrained: assets/USFMpretrained.ckpt
+      img_size: 512
+      patch_size: 16
+      embed_dim: 768
+      depth: 12
+      num_heads: 12
+      mlp_ratio: 4
+      qkv_bias: true
+      use_abs_pos_emb: false
+      use_rel_pos_bias: true
+      init_values: 0.1
+      drop_path_rate: 0.1
+      out_indices:
+      - 3
+      - 5
+      - 7
+      - 11
+    decode_head:
+      type: UPerHead
+      in_channels:
+      - 768
+      - 768
+      - 768
+      - 768
+      in_index:
+      - 0
+      - 1
+      - 2
+      - 3
+      pool_scales:
+      - 1
+      - 2
+      - 3
+      - 6
+      channels: 768
+      dropout_ratio: 0.1
+      num_classes: 2
+      norm_cfg:
+        type: SyncBN
+        requires_grad: true
+      align_corners: false
+      loss_decode:
+        type: CrossEntropyLoss
+        use_sigmoid: false
+        loss_weight: 1.0
+    auxiliary_head:
+      type: FCNHead
+      in_channels: 768
+      in_index: 2
+      channels: 256
+      num_convs: 1
+      concat_input: false
+      dropout_ratio: 0.1
+      num_classes: 2
+      norm_cfg:
+        type: SyncBN
+        requires_grad: true
+      align_corners: false
+      loss_decode:
+        type: CrossEntropyLoss
+        use_sigmoid: false
+        loss_weight: 0.4
+  _target_: usfm.models.beitSegLit.BeitSegLit
+  optimizer:
+    opt: adamW
+    lr: 3.0e-05
+    weight_decay: 0.05
+    opt_betas:
+    - 0.9
+    - 0.999
+    momentum: 0.9
+  scheduler:
+    _target_: torch.optim.lr_scheduler.CosineAnnealingLR
+    _partial_: true
+    T_max: 50
+    eta_min: 1.0e-05
+  metric_keys:
+  - Dice
+callbacks:
+  model_checkpoint:
+    _target_: lightning.pytorch.callbacks.ModelCheckpoint
+    dirpath: ${paths.output_dir}/checkpoints
+    filename: epoch_{epoch:03d}
+    monitor: val/Dice
+    verbose: false
+    save_last: true
+    save_top_k: 1
+    mode: max
+    auto_insert_metric_name: false
+    save_weights_only: false
+    every_n_train_steps: null
+    train_time_interval: null
+    every_n_epochs: null
+    save_on_train_epoch_end: null
+  early_stopping: null
+  model_summary:
+    _target_: lightning.pytorch.callbacks.RichModelSummary
+    max_depth: -1
+  rich_progress_bar:
+    _target_: lightning.pytorch.callbacks.RichProgressBar
+  LearningRateMonitor:
+    _target_: lightning.pytorch.callbacks.LearningRateMonitor
+    logging_interval: epoch
+logger:
+  tensorboard:
+    _target_: lightning.pytorch.loggers.tensorboard.TensorBoardLogger
+    save_dir: ${paths.output_dir}/tensorboard/
+    name: null
+    log_graph: false
+    default_hp_metric: true
+    prefix: ''
+trainer:
+  _target_: lightning.pytorch.trainer.Trainer
+  default_root_dir: ${paths.output_dir}
+  min_epochs: 1
+  max_epochs: 800
+  accelerator: gpu
+  devices:
+  - 0
+  - 1
+  check_val_every_n_epoch: 10
+  deterministic: false
+  gradient_clip_val: 3.0
+  precision: 16-mixed
+  enable_model_summary: false
+  strategy: ddp
+paths:
+  root_dir: ${oc.env:PROJECT_ROOT}
+  data_dir: ${paths.root_dir}/data/
+  log_dir: ${paths.root_dir}/logs/
+  output_dir: ${paths.log_dir}/${task_name}/${tag}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+  work_dir: ${hydra:runtime.cwd}
+extras:
+  ignore_warnings: false
+  enforce_tags: true
+  print_config: true
+detail: beitBaseline
+tag: seg_tn3k

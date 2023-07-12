@@ -1,0 +1,53 @@
+# @package _global_
+
+defaults:
+  - override /data: tn3k
+  - override /model: beitSeg
+  - override /callbacks: default
+  - override /trainer: default
+  - override /logger: tensorboard
+  - override /hydra: tagnamed
+
+seed: 520
+task_name: BeitSeg
+detail: beitBaseline
+tag: "debug"
+test: false
+
+paths:
+  output_dir: ${paths.log_dir}/${task_name}/${tag}/${now:%Y-%m-%d}_${now:%H-%M-%S}
+
+data:
+  data_DS_path: data
+
+  batch_size: 64
+  num_workers: 0
+
+model:
+  net:
+    backbone:
+      pretrained:
+
+callbacks:
+  model_checkpoint:
+    monitor: "val/Dice"
+    mode: "max"
+
+  LearningRateMonitor:
+    _target_: lightning.pytorch.callbacks.LearningRateMonitor
+    logging_interval: "epoch"
+
+  early_stopping:
+
+trainer:
+  min_epochs: 1
+  max_epochs: 800
+  gradient_clip_val: 3.0
+  accelerator: gpu
+  precision: "16-mixed"
+  check_val_every_n_epoch: 10
+  enable_model_summary: false
+  devices: [0]
+  strategy:
+    _target_: lightning.pytorch.strategies.DDPStrategy
+    find_unused_parameters: true

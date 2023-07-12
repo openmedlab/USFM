@@ -1,0 +1,24 @@
+# @package model
+defaults:
+  - segmodels/upernet_beit_base
+
+_target_: usfm.models.beitSegLit.BeitSegLit
+
+net:
+  backbone:
+    pretrained: null
+
+optimizer:
+  opt: adamW
+  lr: 3e-5
+  weight_decay: 0.05
+  opt_betas: [0.9, 0.999]
+  momentum: 0.9
+
+scheduler:
+  _target_: torch.optim.lr_scheduler.CosineAnnealingLR
+  _partial_: true
+  T_max: 50
+  eta_min: 1e-5
+
+metric_keys: ["Dice"]

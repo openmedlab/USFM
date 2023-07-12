@@ -1,0 +1,6 @@
+- tag=seg_tn3k
+- experiment=ftSeg.yaml
+- model.net.backbone.pretrained=assets/USFMpretrained.ckpt
+- data=tn3k
+- data={batch_size:40, num_workers:4}
+- trainer={devices:[0,1], strategy:ddp}
