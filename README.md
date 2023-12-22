@@ -17,7 +17,7 @@ ______________________________________________________________________
 
 ## Updated on 2023.12.22
 
-## **Our new version of USFM is coming soon!**
+## **Our new version of USFM has been released USFM ([weight](<https://dl.orangedox.com/FDUUSFM>)). Implementation code for downstream tasks is coming soon!**
 
 </div>
 
@@ -140,16 +140,6 @@ python usfm/train.py tag=seg_$dataset experiment=ftSeg.yaml model.net.backbone.p
 
 ## 📝 Fine-tuning Results
 
-The fine-tuning segmentation results for publicly dataset [TN3K and tnscui] are shown in the table.
-| Dataset | Model          | Architecture   | Dice  |
-|---------|----------------|----------------|-------|
-| TN3K    | non-pretrained | UPerNet(ViT-B) | 0.860 |
-| TN3K    | SAM-encoder    | -              | 0.818 |
-| TN3K    | USFM           | UPerNet(ViT-B) | **0.871** |
-| tnscui  | non-pretrained | UPerNet(ViT-B) | 0.879 |
-| tnscui  | SAM            | -              | 0.860 |
-| tnscui  | USFM           | UPerNet(ViT-B) | **0.900** |
-
 ## 🙋‍♀️ Feedback and Contact
 
 - Email
@@ -162,7 +152,7 @@ This project is under the CC-BY-NC 4.0 license. See [LICENSE](LICENSE) for detai
 
 ## 🙏 Acknowledgement
 
-Our code is based on [BEIT](https://github.com/microsoft/unilm), [transformer](https://github.com/huggingface/transformers), [pytorch-image-models
+Our code is based on [BEiT](https://github.com/microsoft/unilm), [transformer](https://github.com/huggingface/transformers), [pytorch-image-models
 ](https://github.com/huggingface/pytorch-image-models), and [lightning-hydra-template
 ](https://github.com/ashleve/lightning-hydra-template). Thanks them for releasing their codes.
 
