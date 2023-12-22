@@ -11,6 +11,25 @@ ______________________________________________________________________
 
 </div>
 
+<div align="center">
+
+## ✨✨✨
+
+## Updated on 2023.12.22
+
+## **Our new version of USFM is coming soon!**
+
+</div>
+
+### The USFM is generalized to **various human organs** with **high label efficiency** for US segmentation, classification and image enhancement tasks by pre-training on the **largest multi-organ, multi-center, multi-device database!**
+
+
+<hr style=" height:2px;border:none;border-top:2px dotted #185598;" />
+
+<div align="center">
+
+## Old VERSION
+</div>
 Updated on 2023.06.20
 
 ## ✨ Key Features
@@ -26,8 +45,8 @@ key feature bulletin points here:
 ## 📌 Links
 
 - [Paper](In progress)
-- [Model](https://drive.google.com/file/d/1_L_z34LOMxwhsqWpZwJ9eOPXvk_Wwd5N/view?usp=sharing)
-- [Code](https://github.com/openmedlab/USFM)
+- [Model]([https://](https://drive.google.com/file/d/1_L_z34LOMxwhsqWpZwJ9eOPXvk_Wwd5N/view?usp=sharing))
+- [Code]([https://](https://github.com/George-Jiao/USFM))
 
 ## 💡 Details
 
@@ -43,7 +62,7 @@ Our ultrasound foundation model (USFM) is pre-trained on the database containing
 
 ```bash
 # clone project
-git clone https://github.com/openmedlab/USFM.git
+git clone https://github.com/George-Jiao/USFM
 cd USFM
 
 # [OPTIONAL] create conda environment
@@ -61,7 +80,7 @@ pip install -r requirements.txt
 
 ```bash
 # clone project
-git clone https://github.com/openmedlab/USFM.git
+git clone https://github.com/George-Jiao/USFM
 cd USFM
 
 # create conda environment and install dependencies
@@ -76,7 +95,7 @@ mim install mmcv
 
 ### 2. Installing USFM
 
-#### Install USFM from the source for better development and debugging.
+#### Install USFM from the source for better development and debugging
 
 ```bash
 # In the folder USFM
@@ -89,8 +108,8 @@ pip install -v -e .
 
 USFM is pre-trained on 3 private and 4 public datasets using BEIT under the manner of feature reconstruction. Several datasets were collected as downstream tasks for validation. Here, we provide 2 public datasets for the ultrasound downstream task.
 
-- tn3k \[link: https://drive.google.com/file/d/1jPAjMqFXR_lRdZ5D2men9Ix9L65We_aO/view?usp=sharing\]
-- tnscui \[link: https://drive.google.com/file/d/1Ho-PzLlcceRFdu0Cotxqdt4bXEsiK3qA/view?usp=sharing\]
+- tn3k \[link: <https://drive.google.com/file/d/1jPAjMqFXR_lRdZ5D2men9Ix9L65We_aO/view?usp=sharing\>]
+- tnscui \[link: <https://drive.google.com/file/d/1Ho-PzLlcceRFdu0Cotxqdt4bXEsiK3qA/view?usp=sharing\>]
 
 ### 2. Download and prepare the dataset
 
@@ -119,7 +138,6 @@ Download the model weight from Google Drive [USFMpretrained](https://drive.googl
 python usfm/train.py tag=seg_$dataset experiment=ftSeg.yaml model.net.backbone.pretrained=assets/USFMpretrained.ckpt data=$dataset data="{batch_size:40, num_workers:4}" trainer="{devices:[0,1], strategy:ddp}"
 ```
 
-
 ## 📝 Fine-tuning Results
 
 The fine-tuning segmentation results for publicly dataset [TN3K and tnscui] are shown in the table.
@@ -131,7 +149,6 @@ The fine-tuning segmentation results for publicly dataset [TN3K and tnscui] are 
 | tnscui  | non-pretrained | UPerNet(ViT-B) | 0.879 |
 | tnscui  | SAM            | -              | 0.860 |
 | tnscui  | USFM           | UPerNet(ViT-B) | **0.900** |
-
 
 ## 🙋‍♀️ Feedback and Contact
 
@@ -145,7 +162,7 @@ This project is under the CC-BY-NC 4.0 license. See [LICENSE](LICENSE) for detai
 
 ## 🙏 Acknowledgement
 
-Our code is based on [BEiT](https://github.com/microsoft/unilm), [transformer](https://github.com/huggingface/transformers), [pytorch-image-models
+Our code is based on [BEIT](https://github.com/microsoft/unilm), [transformer](https://github.com/huggingface/transformers), [pytorch-image-models
 ](https://github.com/huggingface/pytorch-image-models), and [lightning-hydra-template
 ](https://github.com/ashleve/lightning-hydra-template). Thanks them for releasing their codes.
 
