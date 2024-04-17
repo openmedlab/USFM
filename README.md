@@ -17,7 +17,7 @@ ______________________________________________________________________
 
 ## Updated on 2023.12.22
 
-## **Our new version of USFM has been released ([weight](<https://dl.orangedox.com/FDUUSFM>)). Implementation code for downstream tasks is coming soon!**
+## **Our new version of USFM has been released ([weight](<https://drive.google.com/file/d/1NDbtB7U-emi4L8uiD47KKPtNApdaImTU/view?usp=drive_link>)). Implementation code for downstream tasks is coming soon!**
 
 </div>
 
