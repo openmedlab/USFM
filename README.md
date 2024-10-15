@@ -4,6 +4,10 @@ ______________________________________________________________________
 
 # UltraSound Foundation Model (USFM)
 
+USFM: A universal ultrasound foundation model generalized to tasks and organs towards label efficient image analysis,” Medical Image Analysis, vol. 96, p. 103202, Aug. 2024, doi: 10.1016/j.media.2024.103202.
+
+
+
 <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a>
 <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/-Lightning-792ee5?logo=pytorchlightning&logoColor=white"></a>
 <a href="https://hydra.cc/"><img alt="Config: Hydra" src="https://img.shields.io/badge/Config-Hydra-89b8cd"></a>
@@ -52,7 +56,7 @@ key feature bulletin points here:
 
 Our ultrasound foundation model (USFM) is pre-trained on the database containing ultrasound images of six different tissues. The most popular encoder, visual transformer (ViT), was chosen as the base architecture. For the pre-training strategy, we refer to BEiT and use the fully trained DALL-E as a strong Teacher to guide our model to learn the proper feature representation. Experimental results demonstrate that our model has excellent performance on ultrasound image downstream tasks.
 
-![USFM](img/USFMFramework.png)
+![USFM](img/USFMFramework_new.png)
 
 ## 🔥 Installation
 
