@@ -1,24 +1,18 @@
-# @package _global_
-
 defaults:
   - _self_
-  - data: mnist.yaml
-  - model: mnist.yaml
-  - callbacks: default.yaml
-  - logger: null
-  - trainer: default.yaml
-  - paths: default.yaml
-  - extras: default.yaml
-  - hydra: default.yaml
+  - hydra: default
   - experiment: null
-  - hparams_search: null
-  - optional local: default.yaml
-  - debug: null
 
-task_name: "train"
-tags: ["dev"]
-train: True
-test: True
-compile: False
-ckpt_path: null
-seed: null
+L:
+  accelerator: cuda
+  strategy: auto
+  devices: 1
+  num_nodes: 1
+  precision: 16-mixed
+  use_distributed_sampler: false
+
+data:
+  dataset_path: ./datasets/
+  ds_path: ${data.dataset_path}/DownStream
+
+mode: train

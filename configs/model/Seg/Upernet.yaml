@@ -1,0 +1,57 @@
+# @package _global_
+model:
+  model_name: Upernet
+  model_type: FM
+  norm_cfg: &norm_cfg
+    type: SyncBN
+    requires_grad: true
+
+  model_cfg:
+    type: EncoderDecoder
+    pretrained: null
+    backbone:
+      type: HVITBackbone4Seg
+      pretrained: #
+      img_size: ${data.img_size}
+      patch_size: 16
+      embed_dim: 768
+      depth: 12
+      num_heads: 12
+      mlp_ratio: 4
+      qkv_bias: true
+      use_abs_pos_emb: false
+      use_rel_pos_bias: true
+      init_values: 0.1
+      drop_path_rate: 0.1
+      out_indices: [3, 5, 7, 11]
+
+    decode_head:
+      type: UPerHead
+      in_channels: [768, 768, 768, 768]
+      in_index: [0, 1, 2, 3]
+      pool_scales: [1, 2, 3, 6]
+      channels: 768
+      dropout_ratio: 0.1
+      num_classes: ${data.num_classes}
+      norm_cfg: *norm_cfg
+      align_corners: false
+      loss_decode:
+        type: CrossEntropyLoss
+        use_sigmoid: false
+        loss_weight: 1.0
+
+    auxiliary_head:
+      type: FCNHead
+      in_channels: 768
+      in_index: 2
+      channels: 256
+      num_convs: 1
+      concat_input: false
+      dropout_ratio: 0.1
+      num_classes: ${data.num_classes}
+      norm_cfg: *norm_cfg
+      align_corners: false
+      loss_decode:
+        type: CrossEntropyLoss
+        use_sigmoid: false
+        loss_weight: 0.4

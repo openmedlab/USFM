@@ -1,0 +1,15 @@
+name: "FASS"
+type: "SegBase"
+num_classes: 5
+img_size: 512
+path:
+  root: "${DATA.DS_path}/Seg/FASS"
+  split:
+    train: "training_set"
+    val: "val_set"
+    test: "test_set"
+    vis:
+      samples: 16
+      interval: 10
+
+transform:

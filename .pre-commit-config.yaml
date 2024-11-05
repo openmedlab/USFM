@@ -3,12 +3,12 @@ default_language_version:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v5.0.0
     hooks:
       # list of supported hooks: https://pre-commit.com/hooks.html
       - id: trailing-whitespace
       - id: end-of-file-fixer
-      - id: check-docstring-first
+      # - id: check-docstring-first
       - id: check-yaml
       - id: debug-statements
       - id: detect-private-key
@@ -19,41 +19,63 @@ repos:
 
   # python code formatting
   - repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 24.4.2
     hooks:
       - id: black
-        args: [--line-length, "99"]
+        # args: [--line-length, "99"]
 
   # python import sorting
   - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
 
   # python upgrading syntax to newer version
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.3.1
+    rev: v3.15.2
     hooks:
       - id: pyupgrade
-        args: [--py38-plus]
+        # args: [--py38-plus]
 
-  # python docstring formatting
-  - repo: https://github.com/myint/docformatter
-    rev: v1.5.1
-    hooks:
-      - id: docformatter
-        args: [--in-place, --wrap-summaries=99, --wrap-descriptions=99]
+  # # python docstring formatting
+  # - repo: https://github.com/myint/docformatter
+  #   rev: v1.7.4
+  #   hooks:
+  #     - id: docformatter
+  #       args:
+  #         [
+  #           --in-place,
+  #           --wrap-summaries=99,
+  #           --wrap-descriptions=99,
+  #           --style=sphinx,
+  #           --black,
+  #         ]
+
+  # # python docstring coverage checking
+  # - repo: https://github.com/econchick/interrogate
+  #   rev: 1.5.0 # or master if you're bold
+  #   hooks:
+  #     - id: interrogate
+  #       args:
+  #         [
+  #           --verbose,
+  #           --fail-under=80,
+  #           --ignore-init-module,
+  #           --ignore-init-method,
+  #           --ignore-module,
+  #           --ignore-nested-functions,
+  #           -vv,
+  #         ]
 
   # python check (PEP8), programming errors and code complexity
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
+    rev: 7.0.0
     hooks:
       - id: flake8
-        args:
-          [
+        args: [
             "--extend-ignore",
-            "E203,E402,E501,F401,F841",
+            "E203,E402,E501,F401,F841,E722", # add E722 to ignore bare except
             "--exclude",
             "logs/*,data/*",
           ]
@@ -67,21 +89,21 @@ repos:
 
   # yaml formatting
   - repo: https://github.com/pre-commit/mirrors-prettier
-    rev: v3.0.0-alpha.6
+    rev: v3.0.0
     hooks:
       - id: prettier
-        types: [yaml]
-        exclude: "environment.yaml"
+        additional_dependencies:
+          - prettier@3.3.3 # SEE: https://github.com/pre-commit/pre-commit/issues/3133
 
   # shell scripts linter
-  - repo: https://github.com/shellcheck-py/shellcheck-py
-    rev: v0.9.0.2
-    hooks:
-      - id: shellcheck
+  # - repo: https://github.com/shellcheck-py/shellcheck-py
+  #   rev: v0.10.0.1
+  #   hooks:
+  #     - id: shellcheck
 
   # md formatting
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
+    rev: 0.7.17
     hooks:
       - id: mdformat
         args: ["--number"]
@@ -89,12 +111,14 @@ repos:
           - mdformat-gfm
           - mdformat-tables
           - mdformat_frontmatter
+          - mdformat-beautysh
+          - mdformat-black
           # - mdformat-toc
           # - mdformat-black
 
   # word spelling linter
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.4
+    rev: v2.3.0
     hooks:
       - id: codespell
         args:
@@ -103,21 +127,24 @@ repos:
 
   # jupyter notebook cell output clearing
   - repo: https://github.com/kynan/nbstripout
-    rev: 0.6.1
+    rev: 0.7.1
     hooks:
       - id: nbstripout
 
   # jupyter notebook linting
   - repo: https://github.com/nbQA-dev/nbQA
-    rev: 1.6.3
+    rev: 1.8.5
     hooks:
       - id: nbqa-black
-        args: ["--line-length=99"]
+        # args: ["--line-length=99"]
       - id: nbqa-isort
         args: ["--profile=black"]
-      - id: nbqa-flake8
-        args:
-          [
-            "--extend-ignore=E203,E402,E501,F401,F841",
-            "--exclude=logs/*,data/*",
-          ]
+      - id: nbqa-pyupgrade
+        args: ["--py38-plus"]
+      - id: nbqa-isort
+        args: ["--float-to-top"]
+      # - id: nbqa-flake8
+      #   args: [
+      #       # "--extend-ignore=E203,E402,E501,F401,F841",
+      #       "--exclude=logs/*,data/*",
+      #     ]
