@@ -1,0 +1,52 @@
+# @package _global_
+data:
+  batch_size: 64
+  data_path: ""
+  dataset: imagenet
+  img_size: 224
+  interpolation: bicubic
+  pin_memory: true
+  num_workers: 8
+
+model:
+  resume: null
+
+train:
+  start_epoch: 0
+  epochs: 200
+  warmup_epochs: 20
+  weight_decay: 0.05
+  base_lr: 3e-4
+  warmup_lr: 5e-7
+  min_lr: 0
+  clip_grad: 5.0
+  auto_resume: true
+  accumulation_steps: 0
+  use_checkpoint: false
+  layer_decay: 1.0
+  val_freq: 1
+  only_resume_model: false
+  lr_scheduler:
+    name: cosine
+    decay_epochs: 30
+    decay_rate: 0.1
+    gamma: 0.1
+    multisteps: []
+  optimizer:
+    name: adamw
+    eps: 1e-08
+    betas: [0.9, 0.999]
+    momentum: 0.9
+  label_smoothing: 0 # NOTE no label smoothing in the default setting
+
+aug:
+
+test:
+
+output: ${hydra:runtime.output_dir}/outputs
+tag: default
+save_freq: 1
+print_freq: 10
+seed: 0
+eval_mode: false
+task_name: finetune/${task}/${data.name}/${model.model_name}/${tag}

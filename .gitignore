@@ -143,9 +143,9 @@ dmypy.json
 *.h5
 *.tar
 *.tar.gz
-*.ckpt
 
-configs/local/default.yaml
-/data/
-/logs/
-.env
+# Aim logging
+.aim
+assets/
+logs/
+*/local/*

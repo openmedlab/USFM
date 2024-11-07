@@ -1,0 +1,27 @@
+# @package _global_
+model:
+  model_name: vit
+  model_type: FM
+  resume: null
+  model_cfg:
+    type: vit
+    num_classes: ${data.num_classes}
+    pretrained: null
+    name: vit-b
+    in_chans: 3
+    patch_size: 16
+    embed_dim: 768
+    depth: 12
+    num_heads: 12
+    mlp_ratio: 4
+    qkv_bias: true
+    attn_drop_rate: 0.0
+    drop_path_rate: 0.1
+    init_values: 0.1
+    use_abs_pos_emb: false
+    use_rel_pos_bias: true
+    use_shared_rel_pos_bias: false
+    use_mean_pooling: true
+
+train:
+  label_smoothing: 0.1

@@ -1,0 +1,33 @@
+# @package _global_
+defaults:
+  - baseconfig
+  - _self_
+  - /data: Seg/FASS
+  - /model: Seg/SegVit
+  - /train: null
+
+task: Seg
+
+data:
+  batch_size: 64
+  pin_memory: true
+  num_workers: 8
+  train_ratio: 1.0
+
+model:
+  num_classes: ${data.num_classes}
+  img_size: ${data.img_size}
+
+train:
+  epochs: 400
+  warmup_epochs: 20
+  base_lr: 3e-4
+  warmup_lr: 5e-5
+  min_lr: 0
+  weight_decay: 0.05
+  layer_decay: 0.65
+  val_freq: 5
+
+print_freq: 100
+save_freq: 20
+tag: debug

@@ -1,0 +1,45 @@
+# @package _global_
+model:
+  model_name: SegVit
+  model_type: FM
+  norm_cfg: &norm_cfg
+    type: LN
+    eps: 1e-6
+    requires_grad: true
+
+  model_cfg:
+    type: EncoderDecoder
+    pretrained: null
+    backbone:
+      type: HVITBackbone4Seg
+      pretrained: #
+      img_size: ${data.img_size}
+      patch_size: 16
+      embed_dim: 768
+      depth: 12
+      num_heads: 12
+      drop_path_rate: 0.1
+      attn_drop_rate: 0.0
+      drop_rate: 0.0
+      out_indices: [5, 7, 11]
+      # final_norm: false
+      # with_cls_token: false
+      # interpolate_mode: bicubic
+      # add by upernet
+      use_abs_pos_emb: false
+      use_rel_pos_bias: true
+    decode_head:
+      type: ATMHead
+      img_size: ${data.img_size}
+      in_channels: 768
+      channels: 768
+      num_classes: ${data.num_classes}
+      num_layers: 3
+      num_heads: 12
+      use_stages: 3
+      embed_dims: 384
+      loss_decode:
+        type: ATMLoss
+        num_classes: ${data.num_classes}
+        dec_layers: 3
+        loss_weight: 1.0

@@ -1,25 +1,29 @@
-[tool.pytest.ini_options]
-addopts = [
-  "--color=yes",
-  "--durations=0",
-  "--strict-markers",
-  "--doctest-modules",
-]
-filterwarnings = [
-  "ignore::DeprecationWarning",
-  "ignore::UserWarning",
-]
-log_cli = "True"
-markers = [
-  "slow: slow tests",
-]
-minversion = "6.0"
-testpaths = "tests/"
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
 
-[tool.coverage.report]
-exclude_lines = [
-    "pragma: nocover",
-    "raise NotImplementedError",
-    "raise NotImplementedError()",
-    "if __name__ == .__main__.:",
+[tool.setuptools.packages]
+find = {}
+
+[project]
+name = "usdsgen"
+version = "0.1.0"
+description = "USDSGen"
+readme = "README.md"
+requires-python = ">=3.6"
+dependencies = [
+    "hydra-core",
+    "lightning",
+    "numpy",
+    "pandas",
+    "torch",
+    "Pillow",
+    "timm",
+    "torchmetrics",
+    "monai",
+    "omegaconf",
+    "mmsegmentation"
 ]
+
+[project.scripts]
+usdsgen = "usdsgen.main:main"
