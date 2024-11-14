@@ -1,12 +1,8 @@
-______________________________________________________________________
+---
 
 <div align="center">
 
 # UltraSound Foundation Model (USFM)
-
-USFM: A universal ultrasound foundation model generalized to tasks and organs towards label efficient image analysis,” Medical Image Analysis, vol. 96, p. 103202, Aug. 2024, doi: 10.1016/j.media.2024.103202.
-
-
 
 <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a>
 <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/-Lightning-792ee5?logo=pytorchlightning&logoColor=white"></a>
@@ -15,58 +11,46 @@ USFM: A universal ultrasound foundation model generalized to tasks and organs to
 
 </div>
 
-<div align="center">
+---
 
-## ✨✨✨
+### ✨✨✨ Version V2 updates the code structure to make it more user-friendly for users to customize their own datasets, model structures, and training processes.
 
-## Updated on 2023.12.22
+---
 
-## **Our new version of USFM has been released ([weight](<https://drive.google.com/file/d/1NDbtB7U-emi4L8uiD47KKPtNApdaImTU/view?usp=drive_link>)). Implementation code for downstream tasks is coming soon!**
+### ✨✨✨ Latest USFM weight!
 
-</div>
+The latest weight of USFM has been released ([USFM_latest.pth](https://drive.google.com/file/d/1KRwXZgYterH895Z8EpXpR1L1eSMMJo4q/view?usp=sharing)).
 
-### The USFM is generalized to **various human organs** with **high label efficiency** for US segmentation, classification and image enhancement tasks by pre-training on the **largest multi-organ, multi-center, multi-device database!**
+---
+
+## 💡 Introduction
+
+### Highlights：
+
+1. USFM is the first foundation model for medical ultrasound images, developed and maintained by the Laboratory of Medical Imaging and Artificial Intelligence, Fudan University.
+
+2. USFM aims to accelerate the modeling of existing medical ultrasound image analysis tasks with high performance and efficiency (less labeled data and fewer training epochs).
+
+3. The superior capability of USFM comes from unsupervised pre-training on a large multi-organ, multi-center, multi-device ultrasound database, which contains two million ultrasound images from different ultrasound devices around the globe, which guarantees the generalizability and versatility of USFM.
+
+4. To adapt to the characteristics of ultrasound images, the unsupervised pre-training of the USFM is based on Mask Image Modeling (MIM) with the addition of frequency domain mask learning, which captures the image texture features well.
+
+5. Experiments validate the excellent performance and labeling efficiency of USFM on common disease classification, tissue segmentation and image enhancement tasks. More tasks are in progress.
+
+![USFM](img/USFMFramework.png)
+
+### Paper
+
+[J. Jiao et al., “USFM: A universal ultrasound foundation model generalized to tasks and organs towards label efficient image analysis,” Medical Image Analysis, vol. 96, p. 103202, Aug. 2024, doi: 10.1016/j.media.2024.103202.](https://www.sciencedirect.com/science/article/pii/S1361841524001270)
 
 
-<hr style=" height:2px;border:none;border-top:2px dotted #185598;" />
+## 📌 Configuring the runtime environment
 
-<div align="center">
-
-## Old VERSION
-</div>
-Updated on 2023.06.20
-
-## ✨ Key Features
-
-This repository provides the official implementation of the Ultrasound foundation model (USFM) for ultrasound image downstream tasks.
-
-key feature bulletin points here:
-
-- The model was pre-trained on over 2M ultrasound images from five different tissues.
-- We used a pre-training strategy based on masked image modeling (BEiT) with more sensitivity to structure and texture.
-- The pre-trained model achieves SOTA performance on multiple ultrasound image downstream tasks. A more extensive test is in progress
-
-## 📌 Links
-
-- [Paper](In progress)
-- [Model]([https://](https://drive.google.com/file/d/1_L_z34LOMxwhsqWpZwJ9eOPXvk_Wwd5N/view?usp=sharing))
-- [Code]([https://](https://github.com/George-Jiao/USFM))
-
-## 💡 Details
-
-Our ultrasound foundation model (USFM) is pre-trained on the database containing ultrasound images of six different tissues. The most popular encoder, visual transformer (ViT), was chosen as the base architecture. For the pre-training strategy, we refer to BEiT and use the fully trained DALL-E as a strong Teacher to guide our model to learn the proper feature representation. Experimental results demonstrate that our model has excellent performance on ultrasound image downstream tasks.
-
-![USFM](img/USFMFramework_new.png)
-
-## 🔥 Installation
-
-### 1. Installing dependencies
-
-- Pip
+### 1. Configuring the project
 
 ```bash
 # clone project
-git clone https://github.com/George-Jiao/USFM
+git clone https://github.com/openmedlab/USFM.git
 cd USFM
 
 # [OPTIONAL] create conda environment
@@ -75,80 +59,121 @@ conda activate USFM
 
 # install pytorch according to instructions
 # https://pytorch.org/get-started/
+pip install torch==2.4.1 torchvision==0.19.1 torchaudio==2.4.1 --index-url https://download.pytorch.org/whl/cu118
 
 # install requirements
 pip install -r requirements.txt
+
+# install mmcv
+pip install mmcv==2.2.0 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.4/index.html
+
+
+# install mmsegmentation [important: from modified mmseg]
+mkdir -p useful_modules
+cd useful_modules
+git clone git@github.com:George-Jiao/mmsegmentation.git
+cd mmsegmentation
+git checkout gj_mmcv2_2_0
+pip install -v -e .
+cd ../..
+
 ```
 
-- Conda
+### 2. Installing usdsgen (US DownStream Generalizer)
+
+usdsgen is a USFM-based ultrasound downstream task generalization package that can be used for downstream tasks on ultrasound images.
 
 ```bash
-# clone project
-git clone https://github.com/George-Jiao/USFM
-cd USFM
-
-# create conda environment and install dependencies
-conda env create -f environment.yaml
-
-# activate conda environment
-conda activate USFM
-
-pip install -U openmim
-mim install mmcv
-```
-
-### 2. Installing USFM
-
-#### Install USFM from the source for better development and debugging
-
-```bash
-# In the folder USFM
 pip install -v -e .
 ```
 
-## 📦️ Preparing the data
+## 📦️ Data preparation
 
-### 1. Dataset introduction
+### 1. Datasets Folder
 
-USFM is pre-trained on 3 private and 4 public datasets using BEIT under the manner of feature reconstruction. Several datasets were collected as downstream tasks for validation. Here, we provide 2 public datasets for the ultrasound downstream task.
+You can save datasets in either folder, the default is the folder \[datasets\].
 
-- tn3k \[link: <https://drive.google.com/file/d/1jPAjMqFXR_lRdZ5D2men9Ix9L65We_aO/view?usp=sharing\>]
-- tnscui \[link: <https://drive.google.com/file/d/1Ho-PzLlcceRFdu0Cotxqdt4bXEsiK3qA/view?usp=sharing\>]
-
-### 2. Download and prepare the dataset
+The folder format is generally:
 
 ```bash
-# mkdir data/
+datasets/
+    ├── Seg/
+        ├── dataset_names/
+            ├── trainning_set/
+                ├── image/ img1.png..
+                ├── mask/ img1.png..
+            ├── val_set/
+                ├── image/
+                ├── mask/
+            ├── test_set/
+                ├── image/
+                ├── mask/
+    |── Cls/
+        ├── dataset_names/
+            ├── trainning_set/
+                |── class1/
+                |── class2/
+            ├── val_set/
+                |── class1/
+                |── class2/
+            ├── test_set/
+                |── class1/
+                |── class2/
 ```
 
-Download the dataset from Google Drive [tn3k](https://drive.google.com/file/d/1jPAjMqFXR_lRdZ5D2men9Ix9L65We_aO/view?usp=sharing) and [tn3k](tnscui) and save it in folder data.
+\*\*\*\* Advanced: data configuration in folder \[configs/data/\]
+
+### 2. An example toy dataset for segmentation task
+
+Download the Seg_toy_dataset from Google Drive [Seg_toy_dataset.tar.gz](https://drive.google.com/file/d/1E3e7mTBdIxj4UOfeUrEFM6GgryXylodG/view?usp=sharing) and save it in folder \[./datasets\].
+
+\*\* The toy dataset is just for running purposes only, containing 199 images for training, 50 images for validation, and 50 images for testing.
 
 ```bash
-# set the Dataset name (one of tn3k, tnscui)
-export dataset=tn3k
-# unzip dataset
-tar -xzf $dataset.tar.gz $dataset/
+mkdir -p ./datasets/Seg/
+tar -xzvf ./datasets/Seg_toy_dataset.tar.gz -C ./datasets/Seg/
 ```
 
 ## 🚀 Finetuning USFM on the downstream dataset
 
-### 1. Download the weights of the USFMpretrained
+### 1. Download the USFM weights
 
-Download the model weight from Google Drive [USFMpretrained](https://drive.google.com/file/d/1_L_z34LOMxwhsqWpZwJ9eOPXvk_Wwd5N/view?usp=sharing) and save it in folder assets as USFMpretrained.ckpt.
+Download the USFM weight from Google Drive [USFM_latest.pth](https://drive.google.com/file/d/1KRwXZgYterH895Z8EpXpR1L1eSMMJo4q/view) and save it in \[./assets/FMweight/USFM_latest.path\].
 
-### 2. Finetuning USFM for segmentation
+### 2. Finetuning USFM for the downstream task
 
 ```bash
-python usfm/train.py tag=seg_$dataset experiment=ftSeg.yaml model.net.backbone.pretrained=assets/USFMpretrained.ckpt data=$dataset data="{batch_size:40, num_workers:4}" trainer="{devices:[0,1], strategy:ddp}"
+# setting the environment variable
+export batch_size=16
+export num_workers=4
+export CUDA_VISIBLE_DEVICES=0,1,2
+export devices=3 # number of GPUs
+export dataset=toy_dataset
+export epochs=400
+export pretrained_path=./assets/FMweight/USFM_latest.pth
+export task=Seg   # Cls for classification, Seg for segmentation
+export model=Seg/SegVit # SegVit or Upernet for segmentation, vit for classification
+
+
+python main.py experiment=task/$task data=Seg/$dataset data="{batch_size:$batch_size,num_workers:$num_workers}" \
+    model=$model model.model_cfg.backbone.pretrained=$pretrained_path \
+    train="{epochs:$epochs, accumulation_steps:1}" L="{devices:$devices}" tag=USFM
 ```
 
-## 📝 Fine-tuning Results
+## 📈 Results Folder
 
-## 🙋‍♀️ Feedback and Contact
+The results of the experiment are saved in the logs/fineturne folder.
 
-- Email
-- Webpage
-- Social media
+## 🙋‍♀️ Advanced: Code Structure
+
+```mermaid
+graph TD;
+    endpoint[main.py] --> trainers[usdsgen/trainer/ <br/> configs/experiment/]
+    trainers[usdsgen/trainer/ <br/> configs/experiment/] --> data[usdsgen/data/ <br/> configs/data/]
+    trainers[usdsgen/trainers.py <br/> configs/experiment/] --> model[usdsgen/model/ <br/> configs/model/]
+```
+
+\*\*\*\* You can conveniently configure different models, datasets, and training processes in the usdsgen and configs folder.
 
 ## 🛡️ License
 
@@ -156,7 +181,7 @@ This project is under the CC-BY-NC 4.0 license. See [LICENSE](LICENSE) for detai
 
 ## 🙏 Acknowledgement
 
-Our code is based on [BEiT](https://github.com/microsoft/unilm), [transformer](https://github.com/huggingface/transformers), [pytorch-image-models
+Our code is based on [transformer](https://github.com/huggingface/transformers), [pytorch-image-models
 ](https://github.com/huggingface/pytorch-image-models), and [lightning-hydra-template
 ](https://github.com/ashleve/lightning-hydra-template). Thanks them for releasing their codes.
 
@@ -168,11 +193,25 @@ Please perform a code check before committing with the pre-commit hooks.
 
 ```bash
 # pip install pre-commit
+pre-commit install
 pre-commit run -a
 ```
 
-Update pre-commit hook versions in `.pre-commit-config.yaml` with:
+## Citation
 
-```bash
-pre-commit autoupdate
+If you find the USFM or this project useful in your research, please consider cite:
+
+```bibtex
+@article{JIAO2024103202,
+title = {USFM: A universal ultrasound foundation model generalized to tasks and organs towards label efficient image analysis},
+journal = {Medical Image Analysis},
+volume = {96},
+pages = {103202},
+year = {2024},
+issn = {1361-8415},
+doi = {https://doi.org/10.1016/j.media.2024.103202},
+url = {https://www.sciencedirect.com/science/article/pii/S1361841524001270},
+author = {Jing Jiao, Jin Zhou, Xiaokang Li, ..., Yuanyuan Wang and Yi Guo},
+keywords = {Ultrasound image, Foundation model, Label efficiency, Task adaptability},
+}
 ```

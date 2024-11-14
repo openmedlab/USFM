@@ -13,6 +13,6 @@ L:
 
 data:
   dataset_path: ./datasets/
-  ds_path: ${data.dataset_path}/DownStream
+  ds_path: ${data.dataset_path}
 
 mode: train

@@ -12,25 +12,8 @@ def build_loader(config, logger):
     else:
         raise NotImplementedError("We only support seg and cls now.")
 
-    # 数据集拆分
-    org_len = len(dataset_train)
-    if config.data.train_ratio is not None and config.data.train_ratio < 1:
-        # Stratified Sampling from dataset_train with the train_ratio
-        train_class = dataset_train.targets
-        print(train_class)
-        from sklearn.model_selection import train_test_split
-
-        stratify = train_class if "cls" in config.data.type else None
-        train_index, _ = train_test_split(
-            list(range(org_len)),
-            train_size=config.data.train_ratio,
-            random_state=42,
-            stratify=stratify,
-        )
-        dataset_train = Subset(dataset_train, train_index)
-
     logger.info(
-        f"Finally build dataset: train images = {len(dataset_train)}/{org_len}({config.data.train_ratio}), val images = {len(dataset_val)}, test images = {len(dataset_test)}"
+        f"Finally build dataset: train images = {len(dataset_train)}, val images = {len(dataset_val)}, test images = {len(dataset_test)}"
     )
 
     # dataloader will be setup by fabric, so no distribution sample here

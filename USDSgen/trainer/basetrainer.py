@@ -72,7 +72,7 @@ class BaseTrainer:
     @torch.no_grad()
     def validate(self, data_loader):
         raise NotImplementedError
-    
+
     @torch.no_grad()
     def test(self):
         raise NotImplementedError

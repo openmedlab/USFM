@@ -1,9 +1,9 @@
-name: "FASS"
-type: "SegBase"
-num_classes: 5
+name: "toy_dataset"
+type: "SegBase" # SegBase or SegVOS
+num_classes: 2 # 2 for [0,1], 3 for [0,1,2], etc.
 img_size: 512
 path:
-  root: "${DATA.DS_path}/Seg/FASS"
+  root: "./datasets/Seg/toy_dataset"
   split:
     train: "training_set"
     val: "val_set"

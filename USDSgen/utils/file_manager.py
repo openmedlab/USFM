@@ -24,7 +24,10 @@ class Top_K_results_manager:
 
     def _sort_and_remove(self):
         self.results_path.sort(key=lambda x: x[1], reverse=self.mode == "max")
-        shutil.rmtree(self.results_path.pop()[0])
+        try:
+            shutil.rmtree(self.results_path.pop()[0])
+        except Exception as e:
+            print(f"Error: {e}")
 
 
 def auto_resume_helper(output_dir, logger):

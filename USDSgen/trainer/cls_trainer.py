@@ -3,6 +3,7 @@ import os
 import pickle
 import time
 
+import numpy as np
 import torch
 from omegaconf import DictConfig
 from sklearn.metrics import balanced_accuracy_score, confusion_matrix
@@ -10,7 +11,6 @@ from timm.utils import AverageMeter
 
 from usdsgen.utils.logger import array_to_markdown
 from usdsgen.utils.modelutils import get_grad_norm
-import numpy as np
 
 from .basetrainer import BaseTrainer
 
@@ -236,6 +236,27 @@ class ClsTrainer(BaseTrainer):
             self.epoch,
         )
         return acc, cm, loss, loginfo
+
+    @torch.no_grad()
+    def test(self):
+        if self.config.model.resume:
+            self.load_resume()
+        else:
+            raise ValueError("No checkpoint loaded for testing")
+        self.load_resume()
+        self.logger.info("Start testing")
+        acc, cm, loss, loginfo = self.validate(self.dataloader_test)
+        self.logger.info(f"bAccuracy of the network on the test images: {acc:.3f}")
+        self.logger.info(f"Confusion matrix: \n{cm}")
+        self.logger.info(f"Loss: {loss:.3f}")
+        np.savetxt(
+            os.path.join(self.config.output, "prediction_result.csv"),
+            np.concatenate(
+                [loginfo["y_t"].reshape(-1, 1), loginfo["y_p"].reshape(-1, 1)], axis=1
+            ),
+            delimiter=",",
+            fmt="%d",
+        )
 
     def save_checkpoint(self, epoch, max_accuracy, loginfo, isbest=False):
         # best or save_freq or last epoch

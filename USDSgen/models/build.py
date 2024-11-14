@@ -4,7 +4,6 @@ from omegaconf import DictConfig, OmegaConf
 from timm.models import create_model
 
 from usdsgen.modules.backbone.segbackbone import HVITBackbone4Seg
-from usdsgen.modules.backbone.swin_transformer import build_swin
 from usdsgen.modules.backbone.vision_transformer import build_vit
 from usdsgen.modules.head.seg.ATMHead import ATMHead
 from usdsgen.modules.losses import atm_loss

@@ -149,3 +149,4 @@ dmypy.json
 assets/
 logs/
 */local/*
+datasets/*

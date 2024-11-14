@@ -1,4 +1,5 @@
 import os
+
 import numpy as np
 import torch
 from hausdorff import hausdorff_distance
@@ -129,8 +130,6 @@ def get_seg_metrics(GT_folder, Pre_folder):
     sensitivity_scores = []
 
     for filename in Pre_images:
-        if np.max(GT_images[filename]) == 0:
-            continue
 
         pred = np.zeros_like(Pre_images[filename]).astype(np.float32)
         pred[Pre_images[filename] == 1] = 255
@@ -189,9 +188,6 @@ def get_seg_fromarray(GT_array, Pre_array):
     sensitivity_scores = torch.zeros(B).to(device)
     specificity_scores = torch.zeros(B).to(device)
     for i in range(B):
-        if torch.max(GT_array[i]) == 0:
-            continue
-
         pred = Pre_array[i : i + 1, :, :]
         gt = GT_array[i : i + 1, :, :]
 

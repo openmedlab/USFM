@@ -102,19 +102,19 @@ repos:
   #     - id: shellcheck
 
   # md formatting
-  - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.17
-    hooks:
-      - id: mdformat
-        args: ["--number"]
-        additional_dependencies:
-          - mdformat-gfm
-          - mdformat-tables
-          - mdformat_frontmatter
-          - mdformat-beautysh
-          - mdformat-black
-          # - mdformat-toc
-          # - mdformat-black
+  # - repo: https://github.com/executablebooks/mdformat
+  #   rev: 0.7.17
+  #   hooks:
+  #     - id: mdformat
+  #       args: ["--number"]
+  #       additional_dependencies:
+  #         - mdformat-gfm
+  #         - mdformat-tables
+  #         - mdformat_frontmatter
+  #         - mdformat-beautysh
+  #         - mdformat-black
+  #         # - mdformat-toc
+  #         # - mdformat-black
 
   # word spelling linter
   - repo: https://github.com/codespell-project/codespell
