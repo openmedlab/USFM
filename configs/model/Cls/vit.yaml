@@ -6,7 +6,8 @@ model:
   model_cfg:
     type: vit
     num_classes: ${data.num_classes}
-    pretrained: null
+    backbone:
+      pretrained: null
     name: vit-b
     in_chans: 3
     patch_size: 16
