@@ -461,7 +461,7 @@ def make(**config):
 
 def build_vit(model_cfg, logger):
     model = VisionTransformer(norm_layer=partial(nn.LayerNorm, eps=1e-6), **model_cfg)
-    if model_cfg.pretrained:
+    if model_cfg.backbone.pretrained:
         load_pretrained(model_cfg, model, logger)
     return model
 

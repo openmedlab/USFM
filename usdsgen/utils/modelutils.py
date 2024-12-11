@@ -79,8 +79,10 @@ def reduce_tensor(tensor):
 
 
 def load_pretrained(model_cfg, model, logger):
-    logger.info(f">>>>>>>>>> Fine-tuned from {model_cfg.pretrained} ..........")
-    checkpoint = torch.load(model_cfg.pretrained, map_location="cpu")
+    logger.info(
+        f">>>>>>>>>> Fine-tuned from {model_cfg.backbone.pretrained} .........."
+    )
+    checkpoint = torch.load(model_cfg.backbone.pretrained, map_location="cpu")
     checkpoint_model = checkpoint
 
     if "swin" in model_cfg.type.lower():
@@ -97,7 +99,7 @@ def load_pretrained(model_cfg, model, logger):
 
     del checkpoint_model
     torch.cuda.empty_cache()
-    logger.info(f">>>>>>>>>> loaded successfully '{model_cfg.pretrained}'")
+    logger.info(f">>>>>>>>>> loaded successfully '{model_cfg.backbone.pretrained}'")
 
 
 def remap_pretrained_keys_swin(model, checkpoint_model, logger):
