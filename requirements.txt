@@ -22,6 +22,6 @@ transformers
 albumentations
 torchmetrics
 monai
-mmsegmentation>=1.0.0
+mmsegmentation>=1.2.2
 # choose the mmcv from https://mmcv.readthedocs.io/en/latest/get_started/installation.html#install-mmcv
 # pip install mmcv==2.2.0 -f https://download.openmmlab.com/mmcv/dist/cu118/torch2.4/index.html
